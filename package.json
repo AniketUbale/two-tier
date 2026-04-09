@@ -1,0 +1,15 @@
+{
+  "name": "two-tier-app",
+  "version": "1.0.0",
+  "private": true,
+  "description": "A simple two-tier app with a frontend and a backend.",
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "pg": "^8.13.1"
+  },
+  "scripts": {
+    "start:web": "node frontend/server.js",
+    "start:api": "node backend/server.js",
+    "start": "bash -lc 'node backend/server.js & node frontend/server.js; wait'"
+  }
+}

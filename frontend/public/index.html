@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Two-Tier App</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <main class="page">
+      <section class="hero">
+        <p class="eyebrow">Presentation Tier</p>
+        <h1>Two-Tier App</h1>
+        <p class="lede">
+          A lightweight frontend that fetches dashboard data from a separate backend API.
+        </p>
+        <button id="refreshButton" type="button">Refresh Data</button>
+      </section>
+
+      <section class="panel">
+        <div class="panel-header">
+          <h2>System Status</h2>
+          <span id="statusBadge">Loading...</span>
+        </div>
+        <p id="summary">Connecting to the backend tier...</p>
+        <div class="stats" id="stats"></div>
+      </section>
+
+      <section class="panel">
+        <h2>Tasks</h2>
+        <ul id="taskList" class="task-list"></ul>
+      </section>
+    </main>
+
+    <script src="/app.js"></script>
+  </body>
+  </html>
