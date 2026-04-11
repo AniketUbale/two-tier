@@ -21,6 +21,53 @@ const pool = new Pool({
   password: dbPassword
 });
 
+async function initializeDatabase() {
+  const client = await pool.connect();
+
+  try {
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS app_settings (
+        key TEXT PRIMARY KEY,
+        value TEXT NOT NULL
+      );
+    `);
+
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS tasks (
+        id SERIAL PRIMARY KEY,
+        title TEXT NOT NULL,
+        status TEXT NOT NULL
+      );
+    `);
+
+    await client.query(
+      `
+        INSERT INTO app_settings (key, value)
+        VALUES
+          ('title', 'Two-Tier Application'),
+          ('summary', 'A lightweight frontend communicating with a Node.js backend API backed by PostgreSQL.')
+        ON CONFLICT (key) DO UPDATE SET value = EXCLUDED.value;
+      `
+    );
+
+    const taskCountResult = await client.query("SELECT COUNT(*)::int AS count FROM tasks");
+
+    if (taskCountResult.rows[0].count === 0) {
+      await client.query(
+        `
+          INSERT INTO tasks (title, status)
+          VALUES
+            ('Set up frontend tier', 'done'),
+            ('Expose backend API', 'done'),
+            ('Connect PostgreSQL data', 'done');
+        `
+      );
+    }
+  } finally {
+    client.release();
+  }
+}
+
 function sendJson(res, statusCode, payload) {
   res.writeHead(statusCode, {
     "Content-Type": "application/json; charset=utf-8",
@@ -112,6 +159,13 @@ const server = http.createServer(async (req, res) => {
   sendJson(res, 404, { error: "Not found" });
 });
 
-server.listen(PORT, () => {
-  console.log(`Backend API running on http://localhost:${PORT}`);
-});
+initializeDatabase()
+  .then(() => {
+    server.listen(PORT, () => {
+      console.log(`Backend API running on http://localhost:${PORT}`);
+    });
+  })
+  .catch((error) => {
+    console.error("Failed to initialize PostgreSQL schema.", error);
+    process.exit(1);
+  });
