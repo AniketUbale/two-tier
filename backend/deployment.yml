@@ -1,0 +1,53 @@
+apiVersion: apps/v1 
+kind: Deployment 
+metadata:
+  name: 2tier-backend
+  namespace: 2tier
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backend
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
+  template:
+    metadata:
+        labels:
+          app: backend
+    spec:
+      containers:
+          - name: backend-container 
+            image: aniketu/2tier-backend:v1
+            imagePullPolicy: Always
+            env:
+              - name: PGHOST
+                value: db-headless
+              - name: PGPORT
+                value: "5432"
+              - name: PGDATABASE
+                value: two_tier_app
+              - name: PGUSER
+                value: postgres
+              - name: PGPASSWORD
+                value: postgres
+              - name: API_PORT
+                value: "3001"
+            ports:
+              - containerPort: 3001
+---
+apiVersion: v1 
+kind: Service 
+metadata:
+  name: backend-service
+  namespace: 2tier
+spec:
+  selector:
+    app: backend
+  ports:
+    - protocol: TCP
+      port: 3001
+      targetPort: 3001
+    
