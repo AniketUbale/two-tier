@@ -20,12 +20,21 @@ spec:
           ports:
            - containerPort: 5432
           env:
-            - name: POSTGRES_DB
-              value: two_tier_app
             - name: POSTGRES_USER
-              value: postgres
+              valueFrom:
+                configMapKeyRef:
+                  name: config
+                  key: POSTGRES_USER
+            - name: POSTGRES_DB
+              valueFrom:
+                configMapKeyRef:
+                  name: config
+                  key: POSTGRES_DB
             - name: POSTGRES_PASSWORD
-              value: postgres
+              valueFrom:
+                secretKeyRef:
+                  name: db-secret 
+                  key: POSTGRES_PASSWORD
 ---
 apiVersion: v1
 kind: Service
