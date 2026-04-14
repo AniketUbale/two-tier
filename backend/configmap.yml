@@ -1,0 +1,14 @@
+apiVersion: v1 
+kind: ConfigMap
+metadata:
+  name: config 
+  namespace: 2tier
+data:
+  POSTGRES_USER: "postgres"
+  POSTGRES_DB: "two_tier_app"
+  PGHOST: "db-headless"
+  PGPORT: "5432"
+  PGDATABASE: "two_tier_app"
+  PGUSER: "postgres"
+  API_PORT: "3001"
+  
