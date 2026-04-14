@@ -23,18 +23,31 @@ spec:
             image: aniketu/2tier-backend:v1
             imagePullPolicy: Always
             env:
-              - name: PGHOST
-                value: db-headless
+              - name: PGHOST  
+                valueFrom:
+                  configMapKeyRef:
+                    name: config
+                    key: PGHOST
               - name: PGPORT
-                value: "5432"
+                valueFrom:
+                  configMapKeyRef:
+                    name: config
+                    key: PGPORT
               - name: PGDATABASE
-                value: two_tier_app
+                valueFrom:
+                  configMapKeyRef:
+                    name: config
+                    key: PGDATABASE
               - name: PGUSER
-                value: postgres
+                valueFrom:
+                  configMapKeyRef:
+                    name: config
+                    key: PGUSER
               - name: PGPASSWORD
-                value: postgres
-              - name: API_PORT
-                value: "3001"
+                valueFrom:
+                  secretKeyRef:
+                    name: db-secret
+                    key: PGPASSWORD
             ports:
               - containerPort: 3001
 ---
