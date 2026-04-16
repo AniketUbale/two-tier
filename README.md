@@ -1,56 +1,70 @@
-# Two-Tier App
+# 2tier-app
 
-This project contains a simple two-tier web app:
+Simple app with:
 
-- `frontend/`: the presentation tier, served on `http://localhost:3000`
-- `backend/`: the application/API tier, served on `http://localhost:3001`
-- `postgres`: the backing database used by the backend API
+- `frontend/`: UI
+- `backend/`: API
+- `PostgreSQL`: database
 
-## Prerequisite
+The folder name is `2tier-app`, but the current deployed setup is a 3-tier app because it includes a separate database tier.
 
-Install dependencies:
+## Structure
 
-```bash
-npm install
+```text
+2tier-app/
+├── backend/
+├── frontend/
+├── database/
+├── package.json
+└── docker-compose.yml
 ```
 
-## Database Configuration
-
-The backend reads PostgreSQL settings from environment variables and also supports a local `.env` file.
-
-For Docker-based PostgreSQL, use:
-
-```bash
-cp .env.example .env
-```
-
-For a local PostgreSQL install on macOS, the backend will also work without a `.env` file by defaulting to your current OS username and no password.
-
-## Start PostgreSQL
-
-This repo includes a local PostgreSQL setup with seed data:
-
-```bash
-docker compose up -d db
-```
-
-## Run it
-
-From the project root:
-
-```bash
-npm start
-```
-
-## Endpoints
+## API
 
 - `GET /api/health`
 - `GET /api/dashboard`
 
-## PostgreSQL Defaults
+## Docker Build
 
-- Host: `localhost`
-- Port: `5432`
-- Database: `two_tier_app`
-- User: `postgres` in Docker, otherwise your local OS username by default
-- Password: `postgres` in Docker, otherwise blank by default for local Postgres
+Backend:
+
+```bash
+cd /Users/tablesprintaniket/aniket/2tier-app
+docker build -f backend/Dockerfile -t aniketu/2tier-backend:latest .
+docker push aniketu/2tier-backend:latest
+```
+
+Frontend:
+
+```bash
+cd /Users/tablesprintaniket/aniket/2tier-app
+docker build -f frontend/Dockerfile -t aniketu/2tier-ui:latest .
+docker push aniketu/2tier-ui:latest
+```
+
+## Kubernetes Files
+
+- `backend/deployment.yml`
+- `backend/statefulset.yml`
+- `backend/configmap.yml`
+- `backend/secret.yml`
+- `frontend/deployment.yml`
+
+Namespace:
+
+```text
+2tier
+```
+
+Services:
+
+- `backend-service`
+- `db-headless`
+- `frontend-service`
+
+## Local Run
+
+```bash
+npm install
+npm start
+```
