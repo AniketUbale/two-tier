@@ -3,12 +3,13 @@ const summary = document.getElementById("summary");
 const stats = document.getElementById("stats");
 const taskList = document.getElementById("taskList");
 const refreshButton = document.getElementById("refreshButton");
+const apiBaseUrl = window.APP_CONFIG?.API_BASE_URL || "/api";
 
 async function loadDashboard() {
   statusBadge.textContent = "Loading";
 
   try {
-    const response = await fetch("/api/dashboard");
+    const response = await fetch(`${apiBaseUrl}/dashboard`);
 
     if (!response.ok) {
       throw new Error(`Request failed with status ${response.status}`);
