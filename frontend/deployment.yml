@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
           - name: frontend-container 
-            image: aniketu/2tier-ui:latest
+            image: aniketu/2tier-ui:v2
             ports:
               - containerPort: 3000
 ---
@@ -30,6 +30,7 @@ metadata:
   name: frontend-service
   namespace: 2tier
 spec:
+  type: ClusterIP
   selector:
     app: frontend
   ports:
