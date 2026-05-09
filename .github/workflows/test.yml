@@ -2,7 +2,7 @@ name: print msg using actions
 on:
   push:
     branches:
-      - main 
+      - mster
 jobs:
   build:
     runs-on: ubuntu-latest
