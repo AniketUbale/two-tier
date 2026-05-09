@@ -4,9 +4,9 @@ on:
     branches:
       - main 
 jobs:
-  runs-on: ubuntu-latest
-  steps:
-    name: print message
-    run: echo "Hello DevOps"
-
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      name: print
+      run: echo "hello"
 
