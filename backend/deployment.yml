@@ -18,9 +18,10 @@ spec:
         labels:
           app: backend
     spec:
+      serviceAccountName: app-sa
       containers:
           - name: backend-container 
-            image: aniketu/2tier-backend:v1
+            image: aniketu/2tier-backend:v2
             imagePullPolicy: Always
             env:
               - name: PGHOST  

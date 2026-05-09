@@ -144,8 +144,8 @@ async function fetchDashboard() {
 }
 
 function normalizeRoute(pathname) {
-  if (pathname === "/api/metrics") {
-    return "/api/metrics";
+  if (pathname === "/metrics") {
+    return "/metrics";
   }
 
   if (pathname === "/api/health") {
@@ -188,7 +188,7 @@ const server = http.createServer(async (req, res) => {
     return;
   }
 
-  if (req.method === "GET" && requestUrl.pathname === "/api/metrics") {
+  if (req.method === "GET" && requestUrl.pathname === "/metrics") {
     res.writeHead(200, {
       "Content-Type": register.contentType
     });
