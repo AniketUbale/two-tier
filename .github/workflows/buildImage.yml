@@ -13,3 +13,7 @@ jobs:
         run: |
           cd frontend
           ls -l
+      - name: build image
+        run: |
+          docker build -t test-image .
+          
