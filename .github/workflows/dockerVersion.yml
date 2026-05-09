@@ -1,10 +1,10 @@
-name: check docker apiVersion
+name: check docker Version
 on:
   push:
     branches:
-      - main
+      - master
 jobs:
-  checkout:
+  build:
     runs-on: ubuntu-latest
     steps:
       - name: checkout code
