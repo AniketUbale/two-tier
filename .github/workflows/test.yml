@@ -7,6 +7,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      name: print
-      run: echo "hello"
+      - name: print
+        run: echo "hello"
 
